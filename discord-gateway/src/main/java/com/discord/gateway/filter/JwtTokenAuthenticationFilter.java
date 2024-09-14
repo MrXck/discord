@@ -45,7 +45,7 @@ public class JwtTokenAuthenticationFilter implements WebFilter {
         ServerHttpRequest serverHttpRequest = serverWebExchange.getRequest();
         String token = resolveToken(serverWebExchange.getRequest());
         if (StringUtils.hasLength(token)) {
-            String tokenToString = jwtUtils.checkTokenToString(token);
+            String tokenToString = jwtUtils.checkToken(token);
             JSON json = JSONUtil.parse(redisTemplate.opsForValue().get(tokenToString));
 
             if (json == null) {

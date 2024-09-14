@@ -1,9 +1,9 @@
-package com.discord.gateway.utils;
+package com.discord.user.utils;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.crypto.asymmetric.RSA;
-import com.discord.gateway.config.RSAConfig;
+import com.discord.user.config.RSAConfig;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.Jwts;
@@ -23,8 +23,6 @@ public class JwtUtils {
 
     @Autowired
     private RSAConfig rsaConfig;
-
-    private final int time = 720;
 
     /**
      * 生成token
@@ -81,25 +79,4 @@ public class JwtUtils {
         return null;
     }
 
-    public String getToken(Long userId) {
-        Map<String, Object> claims = new HashMap<>(16);
-        claims.put("userId", Constant.USER_REDIS_PREFIX + userId);
-        return createToken(claims);
-    }
-
-    public String createToken(Map<String, Object> claims) {
-        RSA rsa = new RSA(rsaConfig.getPrivateStr(), null);
-
-        Map<String, Object> header = new HashMap<>(16);
-        header.put(JwsHeader.TYPE, JwsHeader.JWT_TYPE);
-        header.put(JwsHeader.ALGORITHM, "RS256");
-
-        // 生成token
-        return Jwts.builder()
-                .setHeader(header)  //header，可省略
-                .setClaims(claims) //payload，存放数据的位置，不能放置敏感数据，如：密码等
-                .signWith(SignatureAlgorithm.RS256, rsa.getPrivateKey()) //通过RSA的私钥加密
-                .setExpiration(DateUtil.offsetHour(new Date(), time)) //设置过期时间，单位：小时
-                .compact();
-    }
 }
