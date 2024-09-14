@@ -5,7 +5,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://127.0.0.1:3306/bilibili
+    url: jdbc:mysql://192.168.2.102:3306/bilibili
     username: root
     password: 123
   cloud:
