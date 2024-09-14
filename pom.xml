@@ -18,6 +18,8 @@
 
     <modules>
         <module>discord-user</module>
+        <module>discord-gateway</module>
+        <module>discord-common</module>
     </modules>
 
     <packaging>pom</packaging>
